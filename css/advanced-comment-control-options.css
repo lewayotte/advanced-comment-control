@@ -1,0 +1,26 @@
+table#advanced-comment-control-post-rules div,
+table#advanced-comment-control-role-rules div {
+	display: inline-block;
+	clear: none;
+}
+
+span.delete-x {
+	display: inline-block;
+	color: #bbb;
+	font-size: 1.2em;
+	font-weight: bold;
+	line-height: .9em;
+	text-align: center;
+	text-decoration: none;
+	width: 15px;
+	height: 15px;
+	border: 2px solid #bbb;
+	border-radius: 50px;
+	margin-left: 10px;
+}
+
+span.delete-x:hover {
+    color: #a00;
+    cursor: pointer;
+    border: 2px solid #b00;
+}
