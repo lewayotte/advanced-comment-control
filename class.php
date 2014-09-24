@@ -410,7 +410,25 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 		            <div class="metabox-holder">	
 		            	<div class="meta-box-sortables ui-sortable">
 		                    <div id="modules" class="postbox">
+		                        <div class="handlediv" title="Click to toggle"><br /></div>
+		                        
+		                        <h3 class="hndle"><span><?php _e( 'Help Keep This Plugin Alive', 'advanced-comment-control' ); ?></span></h3>
+		                        
+		                        <div class="inside">
+									
+									<div class="other-leenkme-plugins">
+										<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+										<input type="hidden" name="cmd" value="_s-xclick">
+										<input type="hidden" name="hosted_button_id" value="ZYMH8G55QST56">
+										<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+										<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+										</form>
+									</div>
+									
+		                        </div>
+		                    </div>
 		                    
+		                    <div id="modules" class="postbox">
 		                        <div class="handlediv" title="Click to toggle"><br /></div>
 		                        
 		                        <h3 class="hndle"><span><?php _e( 'Pigeon Pack', 'advanced-comment-control' ); ?></span></h3>
@@ -426,7 +444,6 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 		                    </div>
 		                    
 		                    <div id="modules" class="postbox">
-		                    
 		                        <div class="handlediv" title="Click to toggle"><br /></div>
 		                        
 		                        <h3 class="hndle"><span><?php _e( 'leenk.me', 'advanced-comment-control' ); ?></span></h3>
