@@ -1,6 +1,6 @@
 === Advanced Comment Control ===
 Contributors: layotte
-Donate link: http://lewayotte.com/donate/
+Donate link: http://lewayotte.com/advanced-comment-control/
 Tags: advanced, comments, disable, spam, security, trolls
 Requires at least: 3.1
 Tested up to: 4.0

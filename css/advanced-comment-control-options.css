@@ -24,3 +24,7 @@ span.delete-x:hover {
     cursor: pointer;
     border: 2px solid #b00;
 }
+
+div.other-leenkme-plugins {
+	text-align: center;
+}

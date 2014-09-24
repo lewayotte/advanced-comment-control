@@ -273,7 +273,6 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 				
 				if ( !isset( $_REQUEST['advanced_comment_control_general_options_nonce'] ) 
 					|| !wp_verify_nonce( $_REQUEST['advanced_comment_control_general_options_nonce'], 'advanced_comment_control_general_options' ) ) {
-						
 					
 					echo '<div class="error"><p><strong>' . __( 'ERROR: Unable to save settings.', 'advanced-comment-control' ) . '</strong></p></div>';
 				
@@ -299,113 +298,151 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 			
 			// Display HTML form for the options below
 			?>
-			<div id="advanced-comment-control-administrator-options" class=wrap>
+			<div id="advanced-comment-control-administrator-options" class="wrap">
             
-            <div class="icon32 icon32-pigeonpack_settings" id="icon-edit"><br></div>
-            
-            <h2><?php _e( 'Advanced Comment Control Settings', 'advanced-comment-control' ); ?></h2>
-
-            <div style="width:70%;" class="postbox-container">
-            <div class="metabox-holder">	
-            <div class="meta-box-sortables ui-sortable">
-            
-                <form id="advanced-comment-control" method="post" action="">
-                    
-                    <div id="modules" class="postbox">
-                    
-                        <div class="handlediv" title="Click to toggle"><br /></div>
-                        
-                        <h3 class="hndle"><span><?php _e( 'Post Rules', 'advanced-comment-control' ); ?></span></h3>
-                        
-                        <div class="inside">
-                        
-                        <table id="advanced-comment-control-post-rules">
-                        
-                        	<?php
-                        	$last_key = -1;
-                        	if ( !empty( $settings['post_rules'] ) ) {
-                        	
-	                        	foreach( $settings['post_rules'] as $key => $rule ) {
-	                        	
-	                        		echo build_advanced_comment_control_post_rule_row( $rule, $key );
-	                        		$last_key = $key;
-
-	                        	}
-	                        	
-                        	}
-                        	?>
-                                                    
-                        </table>
-                        
-				        <script type="text/javascript" charset="utf-8">
-				            var advanced_comment_control_last_post_rule_key = <?php echo $last_key; ?>;
-				        </script>
-
-                    	<p>
-                       		<input class="button-secondary" id="add-advanced-comment-control-post-rule" type="submit" name="add-advanced-comment-control-post-rule" value="<?php _e( 'Add New Post Rule', 'advanced-comment-control' ); ?>" />
-                    	</p>
-                        
-                        <?php wp_nonce_field( 'advanced_comment_control_general_options', 'advanced_comment_control_general_options_nonce' ); ?>
-                                                  
-                        <p class="submit">
-                            <input class="button-primary" type="submit" name="update_advanced_comment_control_settings" value="<?php _e( 'Save Settings', 'advanced-comment-control' ) ?>" />
-                        </p>
-
-                        </div>
-                        
-                    </div>
-                    
-                    <div id="modules" class="postbox">
-                    
-                        <div class="handlediv" title="Click to toggle"><br /></div>
-                        
-                        <h3 class="hndle"><span><?php _e( 'User Role Options', 'advanced-comment-control' ); ?></span></h3>
-                        
-                        <div class="inside">
-                        
-                        <table id="advanced-comment-control-role-rules">
-                        
-                        	<?php
-                        	$last_key = -1;
-                        	if ( !empty( $settings['role_rules'] ) ) {
-                        	
-	                        	foreach( $settings['role_rules'] as $key => $rule ) {
-	                        	
-	                        		echo build_advanced_comment_control_role_rule_row( $rule, $key );
-	                        		$last_key = $key;
-
-	                        	}
-	                        	
-                        	}
-                        	?>
-                                                    
-                        </table>
-                        
-				        <script type="text/javascript" charset="utf-8">
-				            var advanced_comment_control_last_role_rule_key = <?php echo $last_key; ?>;
-				        </script>
-
-                    	<p>
-                       		<input class="button-secondary" id="add-advanced-comment-control-role-rule" type="submit" name="add-advanced-comment-control-role-rule" value="<?php _e( 'Add New Role Rule', 'advanced-comment-control' ); ?>" />
-                    	</p>
-                        
-                        <?php wp_nonce_field( 'advanced_comment_control_general_options', 'advanced_comment_control_general_options_nonce' ); ?>
-                                                  
-                        <p class="submit">
-                            <input class="button-primary" type="submit" name="update_advanced_comment_control_settings" value="<?php _e( 'Save Settings', 'advanced-comment-control' ) ?>" />
-                        </p>
-
-                        </div>
-                        
-                    </div>
-                    
-                    <?php do_action( 'advanced_comment_control_settings_page' ); ?>
-                    
-                </form>
-                
-            </div>
-            </div>
-            </div>
+	            <div class="icon32 icon32-pigeonpack_settings" id="icon-edit"><br></div>
+	            
+	            <h2><?php _e( 'Advanced Comment Control Settings', 'advanced-comment-control' ); ?></h2>
+	
+	            <div style="width:70%;" class="postbox-container">
+		            <div class="metabox-holder">	
+		            	<div class="meta-box-sortables ui-sortable">
+		            
+			                <form id="advanced-comment-control" method="post" action="">
+			                    
+			                    <div id="modules" class="postbox">
+			                    
+			                        <div class="handlediv" title="Click to toggle"><br /></div>
+			                        
+			                        <h3 class="hndle"><span><?php _e( 'Post Rules', 'advanced-comment-control' ); ?></span></h3>
+			                        
+			                        <div class="inside">
+			                        
+			                        <table id="advanced-comment-control-post-rules">
+			                        
+			                        	<?php
+			                        	$last_key = -1;
+			                        	if ( !empty( $settings['post_rules'] ) ) {
+			                        	
+				                        	foreach( $settings['post_rules'] as $key => $rule ) {
+				                        	
+				                        		echo build_advanced_comment_control_post_rule_row( $rule, $key );
+				                        		$last_key = $key;
+			
+				                        	}
+				                        	
+			                        	}
+			                        	?>
+			                                                    
+			                        </table>
+			                        
+							        <script type="text/javascript" charset="utf-8">
+							            var advanced_comment_control_last_post_rule_key = <?php echo $last_key; ?>;
+							        </script>
+			
+			                    	<p>
+			                       		<input class="button-secondary" id="add-advanced-comment-control-post-rule" type="submit" name="add-advanced-comment-control-post-rule" value="<?php _e( 'Add New Post Rule', 'advanced-comment-control' ); ?>" />
+			                    	</p>
+			                        
+			                        <?php wp_nonce_field( 'advanced_comment_control_general_options', 'advanced_comment_control_general_options_nonce' ); ?>
+			                                                  
+			                        <p class="submit">
+			                            <input class="button-primary" type="submit" name="update_advanced_comment_control_settings" value="<?php _e( 'Save Settings', 'advanced-comment-control' ) ?>" />
+			                        </p>
+			
+			                        </div>
+			                        
+			                    </div>
+			                    
+			                    <div id="modules" class="postbox">
+			                    
+			                        <div class="handlediv" title="Click to toggle"><br /></div>
+			                        
+			                        <h3 class="hndle"><span><?php _e( 'User Role Options', 'advanced-comment-control' ); ?></span></h3>
+			                        
+			                        <div class="inside">
+			                        
+			                        <table id="advanced-comment-control-role-rules">
+			                        
+			                        	<?php
+			                        	$last_key = -1;
+			                        	if ( !empty( $settings['role_rules'] ) ) {
+			                        	
+				                        	foreach( $settings['role_rules'] as $key => $rule ) {
+				                        	
+				                        		echo build_advanced_comment_control_role_rule_row( $rule, $key );
+				                        		$last_key = $key;
+			
+				                        	}
+				                        	
+			                        	}
+			                        	?>
+			                                                    
+			                        </table>
+			                        
+							        <script type="text/javascript" charset="utf-8">
+							            var advanced_comment_control_last_role_rule_key = <?php echo $last_key; ?>;
+							        </script>
+			
+			                    	<p>
+			                       		<input class="button-secondary" id="add-advanced-comment-control-role-rule" type="submit" name="add-advanced-comment-control-role-rule" value="<?php _e( 'Add New Role Rule', 'advanced-comment-control' ); ?>" />
+			                    	</p>
+			                        
+			                        <?php wp_nonce_field( 'advanced_comment_control_general_options', 'advanced_comment_control_general_options_nonce' ); ?>
+			                                                  
+			                        <p class="submit">
+			                            <input class="button-primary" type="submit" name="update_advanced_comment_control_settings" value="<?php _e( 'Save Settings', 'advanced-comment-control' ) ?>" />
+			                        </p>
+			
+			                        </div>
+			                        
+			                    </div>
+			                    
+			                    <?php do_action( 'advanced_comment_control_settings_page' ); ?>
+			                    
+			                </form>
+			                
+			            </div>
+		            </div>
+	            </div>
+	            
+	            <div style="width:25%; float:right;" class="postbox-container">
+		            <div class="metabox-holder">	
+		            	<div class="meta-box-sortables ui-sortable">
+		                    <div id="modules" class="postbox">
+		                    
+		                        <div class="handlediv" title="Click to toggle"><br /></div>
+		                        
+		                        <h3 class="hndle"><span><?php _e( 'Pigeon Pack', 'advanced-comment-control' ); ?></span></h3>
+		                        
+		                        <div class="inside">
+									
+									<div class="other-leenkme-plugins">
+										<a href="http://pigeonpack.com"><img src="http://pigeonpack.com/icon-128x128.png" /></a>
+										<p><a href="http://pigeonpack.com"><?php _e( 'Free and easy email marketing, newsletters, and campaigns; built into your WordPress dashboard!', 'advanced-comment-control' ); ?></a></p>
+									</div>
+									
+		                        </div>
+		                    </div>
+		                    
+		                    <div id="modules" class="postbox">
+		                    
+		                        <div class="handlediv" title="Click to toggle"><br /></div>
+		                        
+		                        <h3 class="hndle"><span><?php _e( 'leenk.me', 'advanced-comment-control' ); ?></span></h3>
+		                        
+		                        <div class="inside">
+									
+									<div class="other-leenkme-plugins">
+										<a href="http://leenk.me"><img src="http://leenk.me/icon-128x128.png" /></a>
+										<p><a href="http://leenk.me"><?php _e( 'Publicize your WordPress content to your Twitter, Facebook, & LinkedIn accounts easily and automatically!', 'advanced-comment-control' ); ?></a></p>
+									</div>
+									
+		                        </div>
+		                    </div>
+		            	</div>
+		            </div>
+	            </div>
 			</div>
 			<?php
 			
