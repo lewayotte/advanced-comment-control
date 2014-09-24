@@ -22,6 +22,8 @@ What can you do with the Advanced Comment Control plugin for WordPress?
 * Set roles that can never comment on select post types.
 * Set rules for logged in or logged out users.
 
+You can follow the development of this plugin at [GitHub](https://github.com/lewayotte/advanced-comment-control)!
+
 == Installation ==
 
 This section describes how to install the plugin and get it working.
