@@ -31,7 +31,10 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 			add_action( 'admin_print_styles', array( $this, 'admin_wp_print_styles' ), 999 );
 			
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-			
+			add_action( 'load-post.php', array( $this, 'load_post_php' ) );
+			    
+			add_action( 'save_post', array( $this, 'save_advanced_comment_control_status_meta_box' ) );
+
 			add_filter( 'comments_open', array( $this, 'comments_open' ), 10, 2 );
 			
 		}
@@ -49,41 +52,44 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 					$current_user = wp_get_current_user();
 															
 					foreach ( $settings['role_rules'] as $rule ) {
-						
-						switch( $rule['role'] ) {
+					
+						if ( $post->post_type === $rule['post_type'] ) {
 							
-							case 'loggedin':
-								if (  0 !== $current_user->ID ) { //current user is logged in
-									if ( $post->post_type === $rule['post_type'] ) {
-										if ( 'always' === $rule['type'] )
-											return true;
-										else if ( 'never' === $rule['type'] )
-											return false;
-									}
-								}
-								break;
+							switch( $rule['role'] ) {
 								
-							case 'loggedout':
-								if (  0 === $current_user->ID ) { //current user is not logged in
-									if ( $post->post_type === $rule['post_type'] ) {
-										if ( 'always' === $rule['type'] )
+								case 'loggedin':
+									if (  0 !== $current_user->ID ) { //current user is logged in
+										if ( 'always' === $rule['type'] ) {
 											return true;
-										else if ( 'never' === $rule['type'] )
+										} else if ( 'never' === $rule['type'] ) {
 											return false;
+										}
 									}
-								}
-								break;
+									break;
+									
+								case 'loggedout':
+									if (  0 === $current_user->ID ) { //current user is not logged in
+										if ( 'always' === $rule['type'] ) {
+											return true;
+										} else if ( 'never' === $rule['type'] ) {
+											return false;
+										}
+									}
+									break;
+									
+								default: //Any WordPress user role
+									foreach( $current_user->roles as $role ) {
+										if ( $role === $rule['role'] ) {
+											if ( 'always' === $rule['type'] ) {
+												return true;
+											} else if ( 'never' === $rule['type'] ) {
+												return false;
+											}
+										}
+									}
+									break;
 								
-							default: //Any WordPress user role
-								foreach( $current_user->roles as $role ) {
-									if ( $role === $rule['role'] ) {
-										if ( 'always' === $rule['type'] )
-											return true;
-										else if ( 'never' === $rule['type'] )
-											return false;
-									}
-								}
-								break;
+							}
 							
 						}
 						
@@ -121,19 +127,6 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 							
 			}
 			return $open;
-			
-		}
-				
-		/**
-		 * Initialize Advanced Comment Control Admin Menu
-		 *
-		 * @since 1.0.0
-		 * @uses add_options_page() Creates Settings submenu to Settings menu in WordPress
-		 */
-		function admin_menu() {
-						
-			add_comments_page( 'Advanced Comment Control Settings', 'Advanced Controls', 'manage_options', 'advanced_comment_control_settings', array( $this, 'settings_page' ) );
-
 			
 		}
 		
@@ -261,6 +254,19 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 			return wp_parse_args( $settings, $defaults );
 			
 		}
+				
+		/**
+		 * Initialize Advanced Comment Control Admin Menu
+		 *
+		 * @since 1.0.0
+		 * @uses add_options_page() Creates Settings submenu to Settings menu in WordPress
+		 */
+		function admin_menu() {
+						
+			add_comments_page( 'Advanced Comment Control Settings', 'Advanced Controls', 'manage_options', 'advanced_comment_control_settings', array( $this, 'settings_page' ) );
+
+			
+		}
 		
 		/**
 		 * Output Advanced Comment Control's settings page and saves new settings on form submit
@@ -283,11 +289,17 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 				
 				} else {
 					
-					if ( isset( $_REQUEST['post_rules'] ) )
+					if ( isset( $_REQUEST['post_rules'] ) ) {
 						$settings['post_rules'] = $_REQUEST['post_rules'];
-						
-					if ( isset( $_REQUEST['role_rules'] ) )
+					} else {
+						$settings['post_rules'] = array();
+					}
+
+					if ( isset( $_REQUEST['role_rules'] ) ) {
 						$settings['role_rules'] = $_REQUEST['role_rules'];
+					} else {
+						$settings['role_rules'] = array();
+					}
 												
 					$settings = apply_filters( 'update_advanced_comment_control_settings', $settings );
 					
@@ -468,6 +480,233 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 			</div>
 			<?php
 			
+		}
+		
+		/**
+		 * Output Advanced Comment Control's settings page and saves new settings on form submit
+		 *
+		 * @since 1.0.0
+		 * @uses add_meta_box() To call 'advanced_comment_control_status_meta_box' 
+		 */
+		function load_post_php() {
+			if ( isset( $_GET['post'] ) )
+			    $post_id = $post_ID = (int) $_GET['post'];
+			elseif ( isset( $_POST['post_ID'] ) )
+			    $post_id = $post_ID = (int) $_POST['post_ID'];
+			else
+			    $post_id = $post_ID = 0;
+			
+			$post = $post_type = $post_type_object = null;
+			
+			if ( $post_id )
+			    $post = get_post( $post_id );
+			
+			if ( $post ) {
+			    $post_type = $post->post_type;
+			    $post_type_object = get_post_type_object( $post_type );
+			}
+			
+			if ( post_type_supports( $post_type, 'comments' ) )
+			    add_meta_box('advancedcommentcontroldiv', __( 'Advanced Comment Control', 'advanced-comment-control' ), array( $this, 'advanced_comment_control_status_meta_box' ), null, 'normal', 'core');
+		}
+		
+		function advanced_comment_control_status_meta_box( $post ) {
+								
+			$settings = $this->get_settings();
+		    $post_type = $post->post_type;
+		    $post_type_object = get_post_type_object( $post_type );
+		    $limits = array();
+						
+			if ( !empty( $settings['post_rules'] ) ) {
+					
+				foreach( $settings['post_rules'] as $rule ) {
+				
+					if ( $post_type === $rule['post_type'] ) {
+					
+						switch( $rule['type'] ) {
+						
+							case 'age':
+								if ( strtotime( $post->post_date_gmt ) < strtotime( sprintf( '-%d %s', $rule['time'], $rule['unit'] ) ) ) {
+									$effective_post_rules[] = sprintf( __( 'is over %s %s(s) old', 'advanced-comment-control' ), $rule['time'], $rule['unit'] );
+								} else {
+									$ineffective_post_rules[] = sprintf( __( 'are older than %s %s(s)', 'advanced-comment-control' ), $rule['time'], $rule['unit'] );
+								}
+								break;
+								
+							case 'limit':
+								if ( $post->comment_count >= $rule['limit'] ) {
+									$effective_post_rules[] =  sprintf( __( 'has more than %s comment(s)', 'advanced-comment-control' ), $rule['limit'] );
+								} else {
+									$ineffective_post_rules[] = sprintf( __( 'have more than %s comment(s)', 'advanced-comment-control' ), $rule['limit'] );
+								}
+								break;
+								
+						}
+						
+					}
+					
+				}
+				
+			}
+
+			$disable_advanced_comment_control_post_rules = get_post_meta( $post->ID, '_disable_advanced_comment_control_post_rules', true );
+			
+			echo '<p><label for="disable_advanced_comment_control_post_rules" class="selectit"><input name="disable_advanced_comment_control_post_rules" type="checkbox" id="disable_advanced_comment_control_post_rules" ' . checked( $disable_advanced_comment_control_post_rules, 'on', false ). ' /> ' . sprintf( __( 'Disable post rules for this %s.', 'advanced-comment-control' ), strtolower( $post_type_object->labels->singular_name ) ) . '</label></p>';		
+
+			if ( !empty( $effective_post_rules ) ) {
+				$last  = array_slice( $effective_post_rules, -1 );
+				$first = join( ', ', array_slice( $effective_post_rules, 0, -1 ) );
+				$both  = array_filter( array_merge( array( $first ), $last ) );
+				$restrictions = join( ' and ', $both );
+				
+				echo '<p class="description">' . sprintf( __( 'Unless disabled, users may not be able to comment on this %s because it %s.', 'advanced-comment-control' ), strtolower( $post_type_object->labels->singular_name ), $restrictions ) . '</p>';
+			}
+			
+			if ( !empty( $ineffective_post_rules ) ) {
+				$last  = array_slice( $ineffective_post_rules, -1 );
+				$first = join( ', ', array_slice( $ineffective_post_rules, 0, -1 ) );
+				$both  = array_filter( array_merge( array( $first ), $last ) );
+				$restrictions = join( ' and ', $both );
+
+				echo '<p class="description">' . sprintf( __( '%s that %s will be disabled.', 'advanced-comment-control' ), $post_type_object->labels->name, $restrictions ) . '</p>';
+			}
+			
+			if ( empty( $effective_post_rules ) && empty( $ineffective_post_rules ) ) {
+				echo '<p class="description">' . sprintf( __( 'There are currently no Post Rules restricting %s.', 'advanced-comment-control' ), strotolower( $post_type_object->labels->name ), $restrictions ) . '</p>';
+			}
+
+			$disable_advanced_comment_control_user_role_rules = get_post_meta( $post->ID, '_disable_advanced_comment_control_user_role_rules', true );
+			
+			if ( !empty( $settings['role_rules'] )  ) {
+			
+				foreach ( $settings['role_rules'] as $rule ) {
+				
+					if ( $post->post_type === $rule['post_type'] ) {
+						
+						switch( $rule['role'] ) {
+							
+							case 'loggedin':
+								if ( 'never' === $rule['type'] ) {
+									$never_user_role_rules[] = __( 'logged in users', 'advanced-comment-control' );
+								} else {
+									$always_user_role_rules[] = __( 'logged in users', 'advanced-comment-control' );
+								}
+								break;
+								
+							case 'loggedout':
+								if ( 'never' === $rule['type'] ) {
+									$never_user_role_rules[] = __( 'logged out users', 'advanced-comment-control' );
+								} else {
+									$always_user_role_rules[] = __( 'logged out users', 'advanced-comment-control' );
+								}
+								break;
+								
+							default: //Any WordPress user role
+								$editable_roles = array_reverse( get_editable_roles() );
+								if ( !empty( $editable_roles[$rule['role']] ) ) {
+									$role_name = $editable_roles[$rule['role']]['name'];
+								} else {
+									$role_name = $rule['role'];
+								}
+								
+								if ( 'never' === $rule['type'] ) {
+									$never_user_role_rules[] = sprintf( __( '%s users', 'advanced-comment-control' ), $role_name );
+								} else {
+									$always_user_role_rules[] = sprintf( __( '%s users', 'advanced-comment-control' ), $role_name );
+								}
+								break;
+						
+						}
+					
+					}
+					
+				}
+				
+			}
+			
+			echo '<p><label for="disable_advanced_comment_control_user_role_rules" class="selectit"><input name="disable_advanced_comment_control_user_role_rules" type="checkbox" id="disable_advanced_comment_control_user_role_rules" ' . checked( $disable_advanced_comment_control_user_role_rules, 'on', false ). ' /> ' . sprintf( __( 'Disable user role rules for this %s.', 'advanced-comment-control' ), $post_type_object->labels->singular_name ) . '</label></p>';
+
+			if ( !empty( $never_user_role_rules ) ) {
+				$last  = array_slice( $never_user_role_rules, -1 );
+				$first = join( ', ', array_slice( $never_user_role_rules, 0, -1 ) );
+				$both  = array_filter( array_merge( array( $first ), $last ) );
+				$restrictions = join( ' and ', $both );
+				
+				echo '<p class="description">' . sprintf( __( 'Unless disabled, %s will not be able to comment on this %s.', 'advanced-comment-control' ), $restrictions, strtolower( $post_type_object->labels->singular_name ) ) . '</p>';
+			}
+			
+			if ( !empty( $always_user_role_rules ) ) {
+				$last  = array_slice( $always_user_role_rules, -1 );
+				$first = join( ', ', array_slice( $always_user_role_rules, 0, -1 ) );
+				$both  = array_filter( array_merge( array( $first ), $last ) );
+				$restrictions = join( ' and ', $both );
+				
+				echo '<p class="description">' . ucfirst( sprintf( __( '%s will always be able to comment on this %s.', 'advanced-comment-control' ), $restrictions, strtolower( $post_type_object->labels->singular_name ) ) ) . '</p>';
+			}
+			
+			if ( empty( $never_user_role_rules ) && empty( $always_user_role_rules ) ) {
+				echo '<p class="description">' . sprintf( __( 'There are currently no User Role Rules restricting %s', 'advanced-comment-control' ), $post_type_object->labels->name, $restrictions ) . '</p>';
+			}
+						
+			wp_nonce_field( 'advanced_comment_control_status_meta_box', 'advanced_comment_control_status_meta_box_nonce' );
+						
+		}
+				
+		/**
+		 * When the post is saved, saves our custom data.
+		 *
+		 * @param int $post_id The ID of the post being saved.
+		 */
+		function save_advanced_comment_control_status_meta_box( $post_id ) {
+			/*
+			 * We need to verify this came from our screen and with proper authorization,
+			 * because the save_post action can be triggered at other times.
+			 */
+		
+			// Check if our nonce is set.
+			if ( ! isset( $_POST['advanced_comment_control_status_meta_box_nonce'] ) ) {
+				return;
+			}
+		
+			// Verify that the nonce is valid.
+			if ( ! wp_verify_nonce( $_POST['advanced_comment_control_status_meta_box_nonce'], 'advanced_comment_control_status_meta_box' ) ) {
+				return;
+			}
+		
+			// If this is an autosave, our form has not been submitted, so we don't want to do anything.
+			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+				return;
+			}
+		
+			// Check the user's permissions.
+			if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
+		
+				if ( ! current_user_can( 'edit_page', $post_id ) ) {
+					return;
+				}
+		
+			} else {
+		
+				if ( ! current_user_can( 'edit_post', $post_id ) ) {
+					return;
+				}
+			}
+			/* OK, it's safe for us to save the data now. */
+			
+			// Make sure that it is set.
+			if ( !empty( $_POST['disable_advanced_comment_control_post_rules'] ) ) {
+				update_post_meta( $post_id, '_disable_advanced_comment_control_post_rules', 'on' );
+			} else {
+				delete_post_meta( $post_id, '_disable_advanced_comment_control_post_rules' );
+			}
+			
+			if ( !empty( $_POST['disable_advanced_comment_control_user_role_rules'] ) ) {
+				update_post_meta( $post_id, '_disable_advanced_comment_control_user_role_rules', 'on' );
+			} else {
+				delete_post_meta( $post_id, '_disable_advanced_comment_control_user_role_rules' );
+			}
+		
+			// Update the meta field in the database.
 		}
 				
 	}

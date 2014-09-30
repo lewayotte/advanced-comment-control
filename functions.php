@@ -173,7 +173,7 @@ if ( !function_exists( 'advanced_comment_control_limit_rules_post_rule' ) ) {
 			);
 		}
 	
-		$return .= '<input class="advanced-comment-control-limit-rule small-text" type="text" name="post_rules[' . $row_key .'][limit]" value="' . $rule['limit'] . '" />';
+		$return  = '<input class="advanced-comment-control-limit-rule small-text" type="text" name="post_rules[' . $row_key .'][limit]" value="' . $rule['limit'] . '" />';
 		$return .= '&nbsp;';
 		$return .= __( 'comment(s)', 'advanced-comment-control' );
 		
