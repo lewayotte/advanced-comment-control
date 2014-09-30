@@ -47,7 +47,9 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 					
 				$settings = $this->get_settings();
 				
-				if ( !empty( $settings['role_rules'] )  ) {
+				$disable_advanced_comment_control_user_role_rules = get_post_meta( $post->ID, '_disable_advanced_comment_control_user_role_rules', true );
+				
+				if ( empty( $disable_advanced_comment_control_user_role_rules ) && !empty( $settings['role_rules'] )  ) {
 				
 					$current_user = wp_get_current_user();
 															
@@ -97,7 +99,9 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 					
 				}
 
-				if ( !empty( $settings['post_rules'] ) ) {
+				$disable_advanced_comment_control_post_rules = get_post_meta( $post->ID, '_disable_advanced_comment_control_post_rules', true );
+
+				if ( empty( $disable_advanced_comment_control_post_rules ) && !empty( $settings['post_rules'] ) ) {
 						
 					foreach( $settings['post_rules'] as $rule ) {
 					

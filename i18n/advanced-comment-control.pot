@@ -1,0 +1,214 @@
+# Copyright (C) 2014 Advanced Comment Control
+# This file is distributed under the same license as the Advanced Comment Control package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced Comment Control 1.0.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/advanced-comment-"
+"control\n"
+"POT-Creation-Date: 2014-09-30 11:58:33+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Lew Ayotte <support@leenk.me>\n"
+"Language-Team: Lew Ayotte <support@leenk.me>\n"
+
+#: class.php:288
+msgid "ERROR: Unable to save settings."
+msgstr ""
+
+#: class.php:314
+msgid "Advanced Comment Control Settings Updated."
+msgstr ""
+
+#: class.php:322
+msgid "Advanced Comment Control Settings"
+msgstr ""
+
+#: class.php:334
+msgid "Post Rules"
+msgstr ""
+
+#: class.php:361
+msgid "Add New Post Rule"
+msgstr ""
+
+#: class.php:367 class.php:411
+msgid "Save Settings"
+msgstr ""
+
+#: class.php:378
+msgid "User Role Options"
+msgstr ""
+
+#: class.php:405
+msgid "Add New Role Rule"
+msgstr ""
+
+#: class.php:432
+msgid "Help Keep This Plugin Alive"
+msgstr ""
+
+#: class.php:451
+msgid "Pigeon Pack"
+msgstr ""
+
+#: class.php:457
+msgid ""
+"Free and easy email marketing, newsletters, and campaigns; built into your "
+"WordPress dashboard!"
+msgstr ""
+
+#: class.php:466
+msgid "leenk.me"
+msgstr ""
+
+#: class.php:472
+msgid ""
+"Publicize your WordPress content to your Twitter, Facebook, & LinkedIn "
+"accounts easily and automatically!"
+msgstr ""
+
+#. #-#-#-#-#  advanced-comment-control.pot (Advanced Comment Control 1.0.0)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: class.php:510
+msgid "Advanced Comment Control"
+msgstr ""
+
+#: class.php:530
+msgid "is over %s %s(s) old"
+msgstr ""
+
+#: class.php:532
+msgid "are older than %s %s(s)"
+msgstr ""
+
+#: class.php:538
+msgid "has more than %s comment(s)"
+msgstr ""
+
+#: class.php:540
+msgid "have more than %s comment(s)"
+msgstr ""
+
+#: class.php:554
+msgid "Disable post rules for this %s."
+msgstr ""
+
+#: class.php:562
+msgid ""
+"Unless disabled, users may not be able to comment on this %s because it %s."
+msgstr ""
+
+#: class.php:571
+msgid "%s that %s will be disabled."
+msgstr ""
+
+#: class.php:575
+msgid "There are currently no Post Rules restricting %s."
+msgstr ""
+
+#: class.php:590 class.php:592
+msgid "logged in users"
+msgstr ""
+
+#: class.php:598 class.php:600
+msgid "logged out users"
+msgstr ""
+
+#: class.php:613 class.php:615
+msgid "%s users"
+msgstr ""
+
+#: class.php:627
+msgid "Disable user role rules for this %s."
+msgstr ""
+
+#: class.php:635
+msgid "Unless disabled, %s will not be able to comment on this %s."
+msgstr ""
+
+#: class.php:644
+msgid "%s will always be able to comment on this %s."
+msgstr ""
+
+#: class.php:648
+msgid "There are currently no User Role Rules restricting %s"
+msgstr ""
+
+#: functions.php:20
+msgid "Disable commenting on"
+msgstr ""
+
+#: functions.php:45
+msgid "older than"
+msgstr ""
+
+#: functions.php:46
+msgid "with more than"
+msgstr ""
+
+#: functions.php:148
+msgid "day(s)"
+msgstr ""
+
+#: functions.php:149
+msgid "week(s)"
+msgstr ""
+
+#: functions.php:150
+msgid "month(s)"
+msgstr ""
+
+#: functions.php:151
+msgid "year(s)"
+msgstr ""
+
+#: functions.php:178
+msgid "comment(s)"
+msgstr ""
+
+#: functions.php:210
+msgid "Logged in"
+msgstr ""
+
+#: functions.php:211
+msgid "Logged out"
+msgstr ""
+
+#: functions.php:217
+msgid "users can"
+msgstr ""
+
+#: functions.php:221
+msgid "always"
+msgstr ""
+
+#: functions.php:222
+msgid "never"
+msgstr ""
+
+#: functions.php:234
+msgid "comment on"
+msgstr ""
+
+#. #-#-#-#-#  advanced-comment-control.pot (Advanced Comment Control 1.0.0)  #-#-#-#-#
+#. Plugin URI of the plugin/theme
+#. #-#-#-#-#  advanced-comment-control.pot (Advanced Comment Control 1.0.0)  #-#-#-#-#
+#. Author URI of the plugin/theme
+msgid "http://lewayotte.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"This plugin allows you to manage who can comment and when they can comment "
+"on your content."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "layotte"
+msgstr ""
+
+#. Tags of the plugin/theme
+msgid "advanced, comments, disable, spam, security"
+msgstr ""
