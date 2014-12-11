@@ -11,7 +11,7 @@ Plugin Name: Advanced Comment Control
 Plugin URI: http://lewayotte.com/
 Description: This plugin allows you to manage who can comment and when they can comment on your content.
 Author: layotte
-Version: 1.0.1
+Version: 1.0.2
 Author URI: http://lewayotte.com/
 Tags: advanced, comments, disable, spam, security
 Text Domain: advanced-comment-control
@@ -22,7 +22,7 @@ http://www.minifycss.com/css-compressor/
 */
 
 //Define global variables...
-define( 'ADVANCED_COMMENT_CONTROL_VERSION' , '1.0.1' );
+define( 'ADVANCED_COMMENT_CONTROL_VERSION' , '1.0.2' );
 define( 'ADVANCED_COMMENT_CONTROL_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'ADVANCED_COMMENT_CONTROL_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ADVANCED_COMMENT_CONTROL_REL_DIR', dirname( plugin_basename( __FILE__ ) ) );
