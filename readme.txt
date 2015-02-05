@@ -4,7 +4,7 @@ Donate link: http://lewayotte.com/advanced-comment-control/
 Tags: advanced, comments, disable, spam, security, trolls
 Requires at least: 3.1
 Tested up to: 4.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,9 @@ This section describes how to install the plugin and get it working.
 4. User Rules
 
 == Changelog ==
+= 1.0.3 =
+* Fixing typo in PHP function call
+
 = 1.0.2 =
 * Adding Serbo-Croatian language files
 
