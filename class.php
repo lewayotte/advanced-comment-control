@@ -576,7 +576,7 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 			}
 			
 			if ( empty( $effective_post_rules ) && empty( $ineffective_post_rules ) ) {
-				echo '<p class="description">' . sprintf( __( 'There are currently no Post Rules restricting %s.', 'advanced-comment-control' ), strotolower( $post_type_object->labels->name ), $restrictions ) . '</p>';
+				echo '<p class="description">' . sprintf( __( 'There are currently no Post Rules restricting %s.', 'advanced-comment-control' ), strtolower( $post_type_object->labels->name ), $restrictions ) . '</p>';
 			}
 
 			$disable_advanced_comment_control_user_role_rules = get_post_meta( $post->ID, '_disable_advanced_comment_control_user_role_rules', true );
