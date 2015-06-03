@@ -36,6 +36,7 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 			add_action( 'save_post', array( $this, 'save_advanced_comment_control_status_meta_box' ) );
 
 			add_filter( 'comments_open', array( $this, 'comments_open' ), 10, 2 );
+			add_filter( 'pings_open', array( $this, 'pings_open' ), 10, 2 );
 			
 		}
 		
@@ -54,7 +55,7 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 					$current_user = wp_get_current_user();
 															
 					foreach ( $settings['role_rules'] as $rule ) {
-					
+						
 						if ( $post->post_type === $rule['post_type'] ) {
 							
 							switch( $rule['role'] ) {
@@ -104,23 +105,27 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 				if ( empty( $disable_advanced_comment_control_post_rules ) && !empty( $settings['post_rules'] ) ) {
 						
 					foreach( $settings['post_rules'] as $rule ) {
-					
-						if ( $post->post_type === $rule['post_type'] ) {
 						
-							switch( $rule['type'] ) {
+						if ( empty( $rule['content_type'] ) || $rule['content_type'] === 'comments' ) {
+					
+							if ( $post->post_type === $rule['post_type'] ) {
 							
-								case 'age':
-									if ( strtotime( $post->post_date_gmt ) < strtotime( sprintf( '-%d %s', $rule['time'], $rule['unit'] ) ) ) {
-										return false;
-									}
-									break;
-									
-								case 'limit':
-									if ( $post->comment_count >= $rule['limit'] ) {
-										return false;
-									}
-									break;
-									
+								switch( $rule['type'] ) {
+								
+									case 'age':
+										if ( strtotime( $post->post_date_gmt ) < strtotime( sprintf( '-%d %s', $rule['time'], $rule['unit'] ) ) ) {
+											return false;
+										}
+										break;
+										
+									case 'limit':
+										if ( $post->comment_count >= $rule['limit'] ) {
+											return false;
+										}
+										break;
+										
+								}
+								
 							}
 							
 						}
@@ -130,6 +135,54 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 				}
 							
 			}
+			return $open;
+			
+		}
+		
+		function pings_open( $open, $post_id ) {
+		
+			$post = get_post( $post_id );
+			
+			if ( !empty( $post ) ) {
+					
+				$settings = $this->get_settings();
+
+				$disable_advanced_comment_control_post_rules = get_post_meta( $post->ID, '_disable_advanced_comment_control_post_rules', true );
+
+				if ( empty( $disable_advanced_comment_control_post_rules ) && !empty( $settings['post_rules'] ) ) {
+						
+					foreach( $settings['post_rules'] as $rule ) {
+						
+						if ( $rule['content_type'] === 'pings' ) {
+				
+							if ( $post->post_type === $rule['post_type'] ) {
+							
+								switch( $rule['type'] ) {
+								
+									case 'age':
+										if ( strtotime( $post->post_date_gmt ) < strtotime( sprintf( '-%d %s', $rule['time'], $rule['unit'] ) ) ) {
+											return false;
+										}
+										break;
+										
+									case 'limit':
+										if ( $post->comment_count >= $rule['limit'] ) {
+											return false;
+										}
+										break;
+										
+								}
+								
+							}
+								
+						}
+						
+					}
+					
+				}
+							
+			}
+			var_dump( $open );
 			return $open;
 			
 		}
