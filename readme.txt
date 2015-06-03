@@ -1,10 +1,10 @@
 === Advanced Comment Control ===
 Contributors: layotte
 Donate link: http://lewayotte.com/advanced-comment-control/
-Tags: advanced, comments, disable, spam, security, trolls
+Tags: advanced, comments, pings, trackbacks, disable, spam, security, trolls
 Requires at least: 3.1
 Tested up to: 4.1
-Stable tag: 1.0.3
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,8 @@ What can you do with the Advanced Comment Control plugin for WordPress?
 
 * Disable comments on select post types older than a certain date.
 * Disable comments on select post types with more than a set number of comments.
+* Disable pings/trackbacks on select post types older than a certain date.
+* Disable pings/trackbacks on select post types with more than a set number of comments.
 * Set roles that can always comment on select post types.
 * Set roles that can never comment on select post types.
 * Set rules for logged in or logged out users.
@@ -46,6 +48,9 @@ This section describes how to install the plugin and get it working.
 4. User Rules
 
 == Changelog ==
+= 1.1.0 =
+* Adding ability to disable Pings/Trackbacks
+
 = 1.0.3 =
 * Fixing typo in PHP function call
 
