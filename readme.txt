@@ -3,8 +3,8 @@ Contributors: layotte
 Donate link: http://lewayotte.com/advanced-comment-control/
 Tags: advanced, comments, pings, trackbacks, disable, spam, security, trolls
 Requires at least: 3.1
-Tested up to: 4.1
-Stable tag: 1.1.0
+Tested up to: 4.6
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,10 @@ This section describes how to install the plugin and get it working.
 4. User Rules
 
 == Changelog ==
+
+= 1.2.0 =
+* Removing debug code
+
 = 1.1.0 =
 * Adding ability to disable Pings/Trackbacks
 
