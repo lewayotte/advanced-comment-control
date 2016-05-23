@@ -182,7 +182,7 @@ if ( !class_exists( 'AdvancedCommentControl' ) ) {
 				}
 							
 			}
-			var_dump( $open );
+
 			return $open;
 			
 		}
