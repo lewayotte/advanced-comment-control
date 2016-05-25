@@ -5,6 +5,7 @@ if ( !function_exists( 'build_advanced_comment_control_post_rule_row' ) ) {
 	function build_advanced_comment_control_post_rule_row( $post_rule=array(), $row_key ) {
 	
 		$default_post_rule = array(
+			'action' 		=> 'disable',
 			'content_type' 	=> 'comments',
 			'post_type' 	=> 'post',
 			'type' 			=> 'age',
@@ -17,11 +18,18 @@ if ( !function_exists( 'build_advanced_comment_control_post_rule_row' ) ) {
 		$return .= '<td>';
 		
 		$return .= '<div class="advanced-comment-control-post-type-post-rule-options">';
+		
+		$actions = '<select class="advanced-comment-control-post-type-post-rule" name="post_rules[' . $row_key .'][action]">';
+		$actions .= '<option value="disable" ' . selected( 'disable', $post_rule['action'], false ) . '>' . __( 'Disable', 'advanced-comment-control' ) . '</option>';
+		$actions .= '<option value="moderate" ' . selected( 'moderate', $post_rule['action'], false ) . '>' . __( 'Moderate', 'advanced-comment-control' ) . '</option>';
+		$actions .= '</select>';
+		
 		$content_types  = '<select class="advanced-comment-control-post-type-post-rule" name="post_rules[' . $row_key .'][content_type]">';
 		$content_types .= '<option value="comments" ' . selected( 'comments', $post_rule['content_type'], false ) . '>' . __( 'Comments', 'advanced-comment-control' ) . '</option>';
 		$content_types .= '<option value="pings" ' . selected( 'pings', $post_rule['content_type'], false ) . '>' . __( 'Pings/Trackbacks', 'advanced-comment-control' ) . '</option>';
 		$content_types .= '</select>';
-	    $return .= sprintf( __( 'Disable %s on', 'advanced-comment-control' ), $content_types );
+		
+	    $return .= sprintf( __( '%s %s on', 'advanced-comment-control' ), $actions, $content_types );
 	    $return .= '&nbsp;';
 		$return .= '<select class="advanced-comment-control-post-type-post-rule" name="post_rules[' . $row_key .'][post_type]">';
 		$hidden_post_types = array( 'attachment', 'revision', 'nav_menu_item' );
